@@ -8,7 +8,8 @@ from django.conf.urls.static import static
 from deafApi import views
 
 urlpatterns = [
-    path("alphabet/", views.alphabets, name='Alphabet'),
+    path('', views.default, name="Default"),
+    path('alphabet/', views.alphabets, name='Alphabet'),
     path('word/', views.words, name="Word"),
     path('get-video/', views.getVideo, name="Get-Video"),
 ]

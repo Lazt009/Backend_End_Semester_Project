@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Deaf Video Generator API</title>
+  </head>
+  <body>
+    <h1>Home Page</h1>
+
+    <ul>
+      <li><a href="{% url 'Alphabet' %}">Go to Alphabets Page</a></li>
+      <br>
+      <li><a href="{% url 'Word' %}">Go to Words Page</a></li>
+      <br>
+      <li><a href="{% url 'Get-Video' %}">Go to API endpoint for getting Video</a></li>
+      <br>
+      <!-- <li><a href="{% url 'Alphabet' %}">Go to Alphabet Page</a></li> -->
+    </ul>
+
+
+    <h2>Videos Presently Stored in Database</h2>
+    {% for key in Data %}
+      <li><a href="media/Videos/{{ key }}">{{ key }}</a></li>
+    {% endfor %}
+
+  </body>
+</html>
