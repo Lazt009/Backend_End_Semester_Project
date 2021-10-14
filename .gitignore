@@ -3,4 +3,4 @@ media/Videos/*
 deafApi/__pycache__/*
 
 # exception to the rule
-media/Videos/.buffer-file
+!media/Videos/.buffer-file
