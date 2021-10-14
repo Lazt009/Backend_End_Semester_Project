@@ -28,7 +28,7 @@ def getVideoUsingAlphabets(ip):
     # print(ip)
     for letter in ip:
         if letter == " ":
-            for _ in range(15):
+            for _ in range(10):
                 img_arr.append( np.zeros((HEIGHT, WIDTH, LAYERS)) )
         else:
             loc = imageFinder(alphabets,letter.capitalize() )
@@ -39,7 +39,7 @@ def getVideoUsingAlphabets(ip):
                 loc = os.path.join( loc1, loc )
                 # print(loc)
                 img = cv2.imread(loc)
-                for i in range(25):
+                for i in range(15):
                     img_arr.append(img)
         # print(len(img_arr))
     # print(settings.MEDIA_ROOT)
