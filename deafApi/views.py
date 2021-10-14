@@ -20,7 +20,7 @@ def default(request):
     # print(media)/
     D = {}
     for videos in os.listdir(media):
-        if videos.endswith('.mp4'):
+        if videos.endswith('.webm'):
             D[ videos ] = "path"
     return render(request, "deafApi/DefaultPage.html", {"Data" : D})
 

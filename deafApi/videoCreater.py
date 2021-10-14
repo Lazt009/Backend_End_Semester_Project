@@ -43,10 +43,11 @@ def getVideoUsingAlphabets(ip):
                     img_arr.append(img)
         # print(len(img_arr))
     # print(settings.MEDIA_ROOT)
-    op = settings.MEDIA_ROOT + "/Videos/" + ip + ".mp4"
-    out = cv2.VideoWriter(op, cv2.VideoWriter_fourcc('m', 'p', '4', 'v'), 25, SIZE) 
+    op = settings.MEDIA_ROOT + "/Videos/" + ip + ".webm"
+    # out = cv2.VideoWriter(op, cv2.VideoWriter_fourcc('m', 'p', '4', 'v'), 25, SIZE) 
+    out = cv2.VideoWriter(op, cv2.VideoWriter_fourcc('V','P','8','0'), 25, SIZE)
     for i in range(len(img_arr)):
         out.write(img_arr[i])
     out.release()
     
-    return "media/Videos/" + ip + ".mp4"
+    return "media/Videos/" + ip + ".webm"

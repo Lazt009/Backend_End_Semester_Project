@@ -1,0 +1,5 @@
+# exclude everything
+media/Videos/*
+
+# exception to the rule
+media/Videos/.buffer-file
