@@ -21,8 +21,8 @@ def fileDeleter():
 
     for videos in os.listdir(media):
         if videos != '.buffer-file':
-            print((settings.MEDIA_ROOT + '\\Videos\\' + videos))
-            os.remove( (settings.MEDIA_ROOT + '\\Videos\\' + videos) )
+            print((settings.MEDIA_ROOT + '/Videos/' + videos))
+            os.remove( (settings.MEDIA_ROOT + '/Videos/' + videos) )
             
     
 
