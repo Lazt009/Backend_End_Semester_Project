@@ -17,11 +17,13 @@ from django.conf import settings
 
 
 def fileDeleter():
-    print( os.chdir( (settings.MEDIA_ROOT  + '\\Videos') ) )
-    for files in os.listdir( (settings.MEDIA_ROOT  + '\\Videos') ):
-        if files != '.buffer-file':
-            os.remove(files)
-    os.chdir( settings.MEDIA_ROOT )
+    media = os.path.join( settings.MEDIA_ROOT, "Videos" )
+
+    for videos in os.listdir(media):
+        if videos != '.buffer-file':
+            print((settings.MEDIA_ROOT + '\\Videos\\' + videos))
+            os.remove( (settings.MEDIA_ROOT + '\\Videos\\' + videos) )
+            
     
 
 # Create your views here.
@@ -34,8 +36,6 @@ def default(request):
         if videos.endswith('.webm'):
             D[ videos ] = "path"
     return render(request, "deafApi/DefaultPage.html", {"Data" : D})
-
-    os.chdir()
 
 
 @api_view(['GET'])
