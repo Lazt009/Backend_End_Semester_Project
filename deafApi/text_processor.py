@@ -1,5 +1,6 @@
 from nltk.stem import PorterStemmer
-import nltk
+# import nltk
+from nltk import WordNetLemmatizer
 from nltk import word_tokenize , pos_tag
 from nltk.corpus import wordnet,stopwords
 from nltk.tokenize.sonority_sequencing import SyllableTokenizer
@@ -8,7 +9,7 @@ from nltk.util import pr
 
 def process_text(original_sent):
     print("\n----------- Text Processing -----------\n")
-    lemmatizer = nltk.WordNetLemmatizer()
+    lemmatizer = WordNetLemmatizer()
     original_sent = original_sent.lower()
     print("\n\nOriginal Sentence :  ",original_sent)
 
