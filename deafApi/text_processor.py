@@ -1,5 +1,6 @@
 from nltk.stem import PorterStemmer
-# import nltk
+import nltk
+nltk.download('punkt')
 from nltk import WordNetLemmatizer
 from nltk import word_tokenize , pos_tag
 from nltk.corpus import wordnet,stopwords
@@ -56,4 +57,3 @@ if __name__ == '__main__':
     processed_text = process_text(original_sent)
     print("\n\n------- Final Processed Test -------", processed_text)
 
-    
