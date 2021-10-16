@@ -33,7 +33,7 @@ def process_text(original_sent):
     reordered_sent = ""
     for tag in tagg:
         if(tag[1] == 'VERB'):
-            verb_string +=(ps.stem(tag[0]) + " ")
+            verb_string +=(lemmatizer.lemmatize(tag[0]) + " ")
         else:
             reordered_sent+=(tag[0] + " ")
 
@@ -55,3 +55,5 @@ if __name__ == '__main__':
     original_sent = "A man is singing a song in the hospital"
     processed_text = process_text(original_sent)
     print("\n\n------- Final Processed Test -------", processed_text)
+
+    

@@ -14,17 +14,15 @@ from django.conf import settings
 from deafApi import models
 from deafApi import text_processor
 
-#global Constants
-HEIGHT, WIDTH, LAYERS =  1080, 1440, 3
-SIZE = (WIDTH, HEIGHT)
+from deafApi import constants
 
-def imageFinder(alphabets, letter):
-    for alphabet in alphabets:
-        # print(alphabet.title, alphabet.image)
-        if letter == alphabet.character:
-            return str(alphabet.data)
-    else:
-        return False
+# def imageFinder(alphabets, letter):
+#     for alphabet in alphabets:
+#         # print(alphabet.title, alphabet.image)
+#         if letter == alphabet.character:
+#             return str(alphabet.data)
+#     else:
+#         return False
 
 # def getVideoUsingAlphabets(ip):
 #     alphabets = models.Alphabet.objects.all()
@@ -58,34 +56,59 @@ def imageFinder(alphabets, letter):
 
 #note Datatype of Alphabet Images - uint8 
 #and frames are 15
+
+# def get_video_from_alphabet1(input_word):
+#     image_list = []
+
+#     for letter in input_word:
+#         if(letter.isalpha() or letter.isnum()):
+#             charObj = models.Alphabet.objects.get( character = letter.capitalize() )
+#             # print(charObj)
+#             path = settings.MEDIA_ROOT + '/' + str( charObj.data )
+#             image_list.append(path)
+#         else:
+#             pass
+
+#     clip = ImageSequenceClip(image_list, fps=25)
+#     return clip
+
+
 def get_video_from_alphabet(input_word):
     # alphabets = models.Alphabet.objects.all()
 
     # Whole code here
     img_arr = []
-    for char in input_word:
-        
+    for j, char in enumerate(input_word):
+        if j>0 and input_word[j-1] == char:
+            black_screen = cv2.imread(settings.MEDIA_ROOT + '/Alphabet/Black.jpg')
+            black_screen = cv2.resize(black_screen, (1280, 720) )
+            for i in range( constants.BLACK_FRAME_FOR_SAME_LETTERS ):
+                img_arr.append(black_screen)
         if char.isalpha():
             charObj = models.Alphabet.objects.get( character = char.capitalize() )
             # print(charObj)
             path = settings.MEDIA_ROOT + '/' + str( charObj.data )
             img = cv2.imread( path )
-            
+            img = cv2.resize(img, constants.SIZE )
             # append 15 frames into the array
-            for i in range(15):
+            for i in range( constants.IMAGE_FRAMES ):
                 img_arr.append( img )
-
         else:
             pass
+     
+    black_screen = cv2.imread(settings.MEDIA_ROOT + '/Alphabet/Black.jpg')
+    black_screen = cv2.resize(black_screen, constants.SIZE )
+    for i in range( constants.BLACK_FRAME ):
+        img_arr.append(black_screen)
 
-    op = settings.MEDIA_ROOT + "/Videos/" + input_word + ".webm"
-    save = cv2.VideoWriter(op, cv2.VideoWriter_fourcc('V','P','8','0'), 25, SIZE)
-    
+    op = settings.MEDIA_ROOT + "/Videos/" + input_word + ".mp4"
+    # save = cv2.VideoWriter(op, cv2.VideoWriter_fourcc('V','P','8','0'), 25, SIZE)
+    save = cv2.VideoWriter(op, cv2.VideoWriter_fourcc('m', 'p', '4', 'v'), constants.FPS, constants.SIZE ) 
     for i in range(len(img_arr)):
         save.write(img_arr[i])
     save.release()
 
-
+    # clip = ImageSequenceClip(img_arr, fps=25)
     clip = VideoFileClip(op) 
     return clip
 
@@ -94,8 +117,11 @@ def get_video_from_alphabet(input_word):
 def get_video_from_word(input_word):
 
     video_object = models.Word.objects.get(word=input_word)
+    print("\n\n\n Video_Object ",video_object,"\n\n")
     video_path = settings.MEDIA_ROOT  + '/' + str( video_object.data )
+    print("\n\n\n Vido path - ", video_path, "\n\n")
     clip = VideoFileClip(video_path)   
+    return clip
    
     # merged_video = concatenate_videoclips([clip1, clip2])
     # merged_video.write_videofile(settings.MEDIA_ROOT + '/Videos/' + "merged.webm")
@@ -117,12 +143,16 @@ def generateVideo(input_text, word_set):
         
         else:
             clip = get_video_from_alphabet(word)
-            
+        # print(clip)
+        
+        # temp = cv2.imread(settings.MEDIA_ROOT + '/Alphabet/Black.jpg')
         clip_list.append(clip)
 
     merged_video = concatenate_videoclips(clip_list)
-    merged_video.write_videofile(settings.MEDIA_ROOT + '/Videos/' + "merged.mp4")
-
+    output = settings.MEDIA_ROOT + '/Videos/' + "merged.mp4"
+    merged_video.write_videofile( output )
+    
+    return '/media/Videos/merged.mp4'
 
 
 if __name__ == '__main__':

@@ -124,7 +124,7 @@ def getVideo(request):
         for i in word:
             print(i.word)
             word_set.add(i.word)
-        print("\n\n\n", word_set)
+        print("\n\n\nWord Set : ", word_set)
 
         path = videoCreater.generateVideo(text, word_set)
     return HttpResponse(path)
