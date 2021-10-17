@@ -1,24 +1,39 @@
 from nltk.stem import PorterStemmer
-import nltk
-nltk.download('punkt')
+# import nltk
 from nltk import WordNetLemmatizer
 from nltk import word_tokenize , pos_tag
 from nltk.corpus import wordnet,stopwords
 from nltk.tokenize.sonority_sequencing import SyllableTokenizer
 from nltk.util import pr
 
+from googletrans import Translator
+
+
+def translate_to_english(input_sent):
+    translator = Translator()
+    trans_sent = translator.translate(input_sent).text
+    return trans_sent
+
 
 def process_text(original_sent):
+
     print("\n----------- Text Processing -----------\n")
-    lemmatizer = WordNetLemmatizer()
-    original_sent = original_sent.lower()
-    print("\n\nOriginal Sentence :  ",original_sent)
+    print("\n\nOriginal Raw Sentence :  ",original_sent)
 
 
+
+    # Any language to English Only
+    english_trans_sent = translate_to_english(original_sent)
+    english_trans_sent = english_trans_sent.lower()
+    print("\n\nEnglish Translated Sentence :  ",english_trans_sent)    
+
+
+        
     # Tokenization
     # print("\n\n------ Tokens ------ ")
-    tokens = word_tokenize(original_sent)
+    tokens = word_tokenize(english_trans_sent)
     print("\n\nTokens :  ",tokens)
+
 
 
     # POS TAG
@@ -27,9 +42,12 @@ def process_text(original_sent):
     print("\n\nPOS TAG :  ",tagg)
 
 
+
     # Reordering by grammer rules
     # print("\n\n------ Reordering Sentences ------\n       by Grammer Rules")
     ps = PorterStemmer()
+    lemmatizer = WordNetLemmatizer()
+
     verb_string = ""
     reordered_sent = ""
     for tag in tagg:
@@ -42,6 +60,7 @@ def process_text(original_sent):
     print("\n\nReordered by Grammer Rules :  ",reordered_sent)
 
 
+
     # Removing Stopwords
     stop_words = set(stopwords.words('english'))
     processed_sent = ""
@@ -52,8 +71,10 @@ def process_text(original_sent):
     print("\n\n\n---------------------------------------\n")
     return processed_sent
 
+
+
 if __name__ == '__main__':
-    original_sent = "A man is singing a song in the hospital"
+    original_sent = "हम शनिवार को पार्टी करने जाने वाले हैं"
     processed_text = process_text(original_sent)
-    print("\n\n------- Final Processed Test -------", processed_text)
+    print("\n\n  Final Processed Text :  ", processed_text,"\n\n\n")
 
