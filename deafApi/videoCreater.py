@@ -72,45 +72,62 @@ from deafApi import constants
 #     clip = ImageSequenceClip(image_list, fps=25)
 #     return clip
 
-
 def get_video_from_alphabet(input_word):
-    # alphabets = models.Alphabet.objects.all()
-
-    # Whole code here
-    img_arr = []
+    clip_arr = []
     for j, char in enumerate(input_word):
-        if j>0 and input_word[j-1] == char:
-            black_screen = cv2.imread(settings.MEDIA_ROOT + '/Alphabet/Black.jpg')
-            black_screen = cv2.resize(black_screen, (1280, 720) )
-            for i in range( constants.BLACK_FRAME_FOR_SAME_LETTERS ):
-                img_arr.append(black_screen)
         if char.isalpha():
             charObj = models.Alphabet.objects.get( character = char.capitalize() )
-            # print(charObj)
-            path = settings.MEDIA_ROOT + '/' + str( charObj.data )
-            img = cv2.imread( path )
-            img = cv2.resize(img, constants.SIZE )
-            # append 15 frames into the array
-            for i in range( constants.IMAGE_FRAMES ):
-                img_arr.append( img )
-        else:
-            pass
+            path = settings.MEDIA_ROOT + "/" + str( charObj.data )
+            print("\n\n\nPath - {}\n\n".format(path))
+            clip = VideoFileClip(path)
+            clip = clip.resize(2.0)
+            clip = clip.fx( vfx.speedx, 1.5)
+            clip_arr.append(clip)
+    merged_clip = concatenate_videoclips(clip_arr)
+    path = settings.MEDIA_ROOT + "/Videos/" + input_word + ".mp4"
+    merged_clip.write_videofile( path )
+
+    clip = VideoFileClip(path)   
+    return clip 
+
+# def get_video_from_alphabet(input_word):
+#     # alphabets = models.Alphabet.objects.all()
+
+#     # Whole code here
+#     img_arr = []
+#     for j, char in enumerate(input_word):
+#         if j>0 and input_word[j-1] == char:
+#             black_screen = cv2.imread(settings.MEDIA_ROOT + '/Alphabet/Black.jpg')
+#             black_screen = cv2.resize(black_screen, (1280, 720) )
+#             for i in range( constants.BLACK_FRAME_FOR_SAME_LETTERS ):
+#                 img_arr.append(black_screen)
+#         if char.isalpha():
+#             charObj = models.Alphabet.objects.get( character = char.capitalize() )
+#             # print(charObj)
+#             path = settings.MEDIA_ROOT + '/' + str( charObj.data )
+#             img = cv2.imread( path )
+#             img = cv2.resize(img, constants.SIZE )
+#             # append 15 frames into the array
+#             for i in range( constants.IMAGE_FRAMES ):
+#                 img_arr.append( img )
+#         else:
+#             pass
      
-    black_screen = cv2.imread(settings.MEDIA_ROOT + '/Alphabet/Black.jpg')
-    black_screen = cv2.resize(black_screen, constants.SIZE )
-    for i in range( constants.BLACK_FRAME ):
-        img_arr.append(black_screen)
+#     black_screen = cv2.imread(settings.MEDIA_ROOT + '/Alphabet/Black.jpg')
+#     black_screen = cv2.resize(black_screen, constants.SIZE )
+#     for i in range( constants.BLACK_FRAME ):
+#         img_arr.append(black_screen)
 
-    op = settings.MEDIA_ROOT + "/Videos/" + input_word + ".mp4"
-    # save = cv2.VideoWriter(op, cv2.VideoWriter_fourcc('V','P','8','0'), 25, SIZE)
-    save = cv2.VideoWriter(op, cv2.VideoWriter_fourcc('m', 'p', '4', 'v'), constants.FPS, constants.SIZE ) 
-    for i in range(len(img_arr)):
-        save.write(img_arr[i])
-    save.release()
+#     op = settings.MEDIA_ROOT + "/Videos/" + input_word + ".mp4"
+#     # save = cv2.VideoWriter(op, cv2.VideoWriter_fourcc('V','P','8','0'), 25, SIZE)
+#     save = cv2.VideoWriter(op, cv2.VideoWriter_fourcc('m', 'p', '4', 'v'), constants.FPS, constants.SIZE ) 
+#     for i in range(len(img_arr)):
+#         save.write(img_arr[i])
+#     save.release()
 
-    # clip = ImageSequenceClip(img_arr, fps=25)
-    clip = VideoFileClip(op) 
-    return clip
+#     # clip = ImageSequenceClip(img_arr, fps=25)
+#     clip = VideoFileClip(op) 
+#     return clip
 
 
 
@@ -119,7 +136,7 @@ def get_video_from_word(input_word):
     video_object = models.Word.objects.get(word=input_word)
     print("\n\n\n Video_Object ",video_object,"\n\n")
     video_path = settings.MEDIA_ROOT  + '/' + str( video_object.data )
-    print("\n\n\n Vido path - ", video_path, "\n\n")
+    print("\n\n\n Video path - ", video_path, "\n\n")
     clip = VideoFileClip(video_path)   
     return clip
    
@@ -127,6 +144,13 @@ def get_video_from_word(input_word):
     # merged_video.write_videofile(settings.MEDIA_ROOT + '/Videos/' + "merged.webm")
 
 
+def isDigit(word):
+    digit = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten']
+    if word in digit:
+        ind = digit.index(word)
+        return ind+1, True
+    else:
+        return -1, False
 
 def generateVideo(input_text, word_set):
 
@@ -137,10 +161,11 @@ def generateVideo(input_text, word_set):
     clip_list = []
     
     for word in processed_word_list:
-        
-        if word in word_set:
+        num, flag = isDigit(word)
+        if (word in word_set):
             clip = get_video_from_word(word)
-        
+        elif flag:
+            clip = get_video_from_word( str(num) )
         else:
             clip = get_video_from_alphabet(word)
         # print(clip)
