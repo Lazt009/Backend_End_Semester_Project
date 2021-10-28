@@ -80,8 +80,7 @@ def get_video_from_alphabet(input_word):
             path = settings.MEDIA_ROOT + "/" + str( charObj.data )
             print("\n\n\nPath - {}\n\n".format(path))
             clip = VideoFileClip(path)
-            clip = clip.resize(2.0)
-            clip = clip.fx( vfx.speedx, 1.5)
+            clip = clip.fx( vfx.speedx, 2.5)
             clip_arr.append(clip)
     merged_clip = concatenate_videoclips(clip_arr)
     path = settings.MEDIA_ROOT + "/Videos/" + input_word + ".mp4"
@@ -152,6 +151,20 @@ def isDigit(word):
     else:
         return -1, False
 
+
+def checkSize(clip):
+    wd, ht = clip.size
+    width_ratio = constants.WIDTH / wd
+    height_ratio = constants.HEIGHT / ht
+    if width_ratio == 1 and height_ratio == 1:
+        return clip
+    elif width_ratio == height_ratio:
+        clip = clip.resize( width_ratio )
+    else:
+        clip = clip.resize( max(width_ratio, height_ratio) )
+    return clip   
+
+
 def generateVideo(input_text, word_set):
 
     # text processing 
@@ -171,6 +184,7 @@ def generateVideo(input_text, word_set):
         # print(clip)
         
         # temp = cv2.imread(settings.MEDIA_ROOT + '/Alphabet/Black.jpg')
+        clip = checkSize(clip)
         clip_list.append(clip)
 
     merged_video = concatenate_videoclips(clip_list)
