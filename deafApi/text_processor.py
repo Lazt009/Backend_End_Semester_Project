@@ -2,9 +2,9 @@ from nltk.stem import PorterStemmer
 # import nltk
 from nltk import WordNetLemmatizer
 from nltk import word_tokenize , pos_tag
-from nltk.corpus import wordnet,stopwords
-from nltk.tokenize.sonority_sequencing import SyllableTokenizer
-from nltk.util import pr
+from nltk.corpus import stopwords
+# from nltk.tokenize.sonority_sequencing import SyllableTokenizer
+# from nltk.util import pr
 
 from googletrans import Translator
 
