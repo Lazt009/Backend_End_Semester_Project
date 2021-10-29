@@ -74,7 +74,7 @@ def process_text(original_sent):
 
 
 if __name__ == '__main__':
-    original_sent = "हम शनिवार को पार्टी करने जाने वाले हैं"
+    original_sent = "हम शनिवार को अध्ययन करने जा रहे हैं"
     processed_text = process_text(original_sent)
     print("\n\n  Final Processed Text :  ", processed_text,"\n\n\n")
 
