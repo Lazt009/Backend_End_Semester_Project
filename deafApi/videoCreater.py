@@ -83,11 +83,11 @@ def get_video_from_alphabet(input_word):
             clip = clip.fx( vfx.speedx, 2.5)
             clip_arr.append(clip)
     merged_clip = concatenate_videoclips(clip_arr)
-    path = settings.MEDIA_ROOT + "/Videos/" + input_word + ".mp4"
-    merged_clip.write_videofile( path )
+    # path = settings.MEDIA_ROOT + "/Videos/" + input_word + ".mp4"
+    # merged_clip.write_videofile( path )
 
-    clip = VideoFileClip(path)   
-    return clip 
+    # clip = VideoFileClip(path)   
+    return merged_clip 
 
 # def get_video_from_alphabet(input_word):
 #     # alphabets = models.Alphabet.objects.all()
