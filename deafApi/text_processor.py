@@ -1,9 +1,9 @@
-import nltk
-nltk.download('universal_tagset')
-nltk.download('averaged_perceptron_tagger')
-nltk.download('wordnet')
-nltk.download('stopwords')
-nltk.download('punkt')
+# import nltk
+# nltk.download('universal_tagset')
+# nltk.download('averaged_perceptron_tagger')
+# nltk.download('wordnet')
+# nltk.download('stopwords')
+# nltk.download('punkt')
 
 from nltk.stem import PorterStemmer
 from nltk import WordNetLemmatizer
