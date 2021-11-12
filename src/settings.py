@@ -26,7 +26,7 @@ SECRET_KEY = '5=d(%hqc+st@tg40^9mib^%+n0z4@q3_4lewa*l^=+*9!m2ect'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'lazt009.pythonanywhere.com', '159.65.147.40']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'lazt009.pythonanywhere.com', '167.71.228.205']
 
 
 # Application definition
